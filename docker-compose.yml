@@ -1,0 +1,38 @@
+# Used by hand (docker compose up -d). The `servermanager` installer generates an equivalent file.
+name: servermanager
+
+services:
+  bot:
+    image: ${SM_IMAGE:-ghcr.io/atronixx-core/atronixx-servermanager:latest}
+    container_name: servermanager
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/data
+    networks: [sm_net]
+    # Lets the bot reach the machine it runs on ("This server" access). Harmless when that feature is off.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # No ports are published (Telegram long polling) and the network is isolated from other containers.
+    mem_limit: 220m
+    memswap_limit: 220m
+    cpus: "0.5"
+    pids_limit: 128
+    security_opt: ["no-new-privileges:true"]
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  sm_net:
+    name: servermanager_net
+    driver: bridge
+    ipam:
+      config:
+        # A fixed subnet lets the host's sshd accept the bot's key only from this network.
+        - subnet: ${SM_SUBNET:-172.28.77.0/24}
