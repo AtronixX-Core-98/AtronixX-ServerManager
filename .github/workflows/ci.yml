@@ -20,6 +20,8 @@ jobs:
           pip install -r requirements-dev.txt
           sudo apt-get update -qq
           sudo apt-get install -y -qq openssh-server shellcheck
+          sudo mkdir -p /run/sshd
+          sudo chmod 0755 /run/sshd
       - name: Shell scripts
         run: shellcheck -S warning install.sh scripts/*.sh
       - name: Tests (unit, handlers with a fake Telegram, real sshd)
