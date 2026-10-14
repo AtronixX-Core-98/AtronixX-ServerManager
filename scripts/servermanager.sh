@@ -24,7 +24,7 @@
 set -uo pipefail
 
 SM_VERSION="1.0.0"
-SM_REPO="${SM_REPO:-AtronixX-Core/AtronixX-ServerManager}"   # override to install from a fork
+SM_REPO="${SM_REPO:-AtronixX-Core-98/AtronixX-ServerManager}"   # override to install from a fork
 SM_BRANCH="${SM_BRANCH:-main}"
 SM_DIR="${SM_DIR:-/opt/servermanager}"
 CONTAINER="servermanager"
