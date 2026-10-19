@@ -498,9 +498,9 @@ summary() {
   printf '\n'
   box_top
   if [ "$started" = 1 ]; then
-    box_row "${BOLD}${GRN}✔ SERVER MANAGER IS RUNNING${RST}"
+    box_row "${BOLD}${GRN}SERVER MANAGER IS RUNNING${RST}"
   else
-    box_row "${BOLD}${RED}✘ INSTALLED, BUT THE BOT IS NOT RUNNING${RST}"
+    box_row "${BOLD}${RED}INSTALLED, BUT THE BOT IS NOT RUNNING${RST}"
   fi
   box_mid
   if [ "$started" = 1 ]; then
