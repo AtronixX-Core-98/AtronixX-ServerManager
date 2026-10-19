@@ -36,29 +36,29 @@
 </div>
 
 ```bash
-sudo bash <(curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh)
+curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh | sudo bash
 ```
 
 <div dir="rtl">
 
 نصاب سیستم رو بررسی می‌کنه، اگه لازم باشه Docker رو نصب می‌کنه، توکن رو با تلگرام اعتبارسنجی می‌کنه، `.env` خصوصی می‌سازه، ایمیج رو می‌گیره (یا اگه نبود از سورس می‌سازه)، ربات رو بالا می‌آره و صبر می‌کنه آنلاین بشه. بعدش ربات رو باز کن و `/start` بفرست.
 
-### دستور `servermanager`
+### دستور `AX-Manager`
 
-بعد از نصب، `sudo servermanager` پنل کنترل رو باز می‌کنه. دستورهای دیگه:
+بعد از نصب، `sudo AX-Manager` پنل کنترل رو باز می‌کنه. دستورهای دیگه:
 
 </div>
 
 ```
-servermanager status          وضعیت، آپتایم، کاربران، رم
-servermanager doctor          بررسی سلامت و توضیح مشکل‌ها
-servermanager logs -f         دنبال‌کردن لاگ
-servermanager update          آپدیت (اول از داده‌ها بکاپ می‌گیره)
-servermanager settings        تغییر توکن، ادمین، نام، منطقه‌ی زمانی، شبکه‌های مجاز
-servermanager host-access     enable | disable | status | test
-servermanager backup          بکاپ محلی tar.gz
-servermanager import-data D   وارد کردن تنظیمات و داده از یک پوشه‌ی نصب دیگه
-servermanager uninstall
+AX-Manager status          وضعیت، آپتایم، کاربران، رم
+AX-Manager doctor          بررسی سلامت و توضیح مشکل‌ها
+AX-Manager logs -f         دنبال‌کردن لاگ
+AX-Manager update          آپدیت (اول از داده‌ها بکاپ می‌گیره)
+AX-Manager settings        تغییر توکن، ادمین، نام، منطقه‌ی زمانی، شبکه‌های مجاز
+AX-Manager host-access     enable | disable | status | test
+AX-Manager backup          بکاپ محلی tar.gz
+AX-Manager import-data D   وارد کردن تنظیمات و داده از یک پوشه‌ی نصب دیگه
+AX-Manager uninstall
 ```
 
 <div dir="rtl">
@@ -70,7 +70,7 @@ servermanager uninstall
 </div>
 
 ```bash
-sudo servermanager host-access enable
+sudo AX-Manager host-access enable
 ```
 
 <div dir="rtl">
@@ -100,7 +100,7 @@ sudo servermanager host-access enable
 
 ## ارتقا از نسخه‌ی پیش‌انتشار
 
-`servermanager import-data /path/to/old/install` رو اجرا کن. دیتابیس، اطلاعات رمزشده و بکاپ‌های قدیمی همچنان کار می‌کنن (`core/legacy_v1.py`؛ اگه هیچ‌وقت نسخه‌ی پیش‌انتشار رو نداشتی می‌تونی حذفش کنی).
+`AX-Manager import-data /path/to/old/install` رو اجرا کن. دیتابیس، اطلاعات رمزشده و بکاپ‌های قدیمی همچنان کار می‌کنن (`core/legacy_v1.py`؛ اگه هیچ‌وقت نسخه‌ی پیش‌انتشار رو نداشتی می‌تونی حذفش کنی).
 
 ## امنیت
 
@@ -120,7 +120,7 @@ pip install -r requirements-dev.txt && python -m pytest -q
 
 ## سازنده و پشتیبانی
 
-ساخته و نگهداری‌شده توسط **[AtronixX-Core](https://github.com/AtronixX-Core)**.
+ساخته و نگهداری‌شده توسط **[AtronixX-Core](https://github.com/AtronixX-Core-98)**.
 اخبار و نسخه‌های جدید: [@AtronixX_Core](https://t.me/AtronixX_Core) · پشتیبانی: [@AtronixX_Support](https://t.me/AtronixX_Support)
 
 > `SUPPORT_USERNAME` توی `.env` راه ارتباطی کاربرهای **ربات خودت** هست؛ اطلاعات بالا مربوط به خودِ پروژه‌ست.

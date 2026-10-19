@@ -20,7 +20,6 @@ USER = {
     "b_account": ("👤 حساب من", "👤 My account"),
     "b_lang": ("🌐 English", "🌐 فارسی"),
     "b_support": ("💬 پشتیبانی", "💬 Support"),
-    "b_credit": ("💙 ساخته‌شده توسط " + credits.AUTHOR, "💙 Made by " + credits.AUTHOR),
     "b_admin": ("👑 پنل مدیریت", "👑 Admin panel"),
     "b_connect": ("⚡ باز کردن ترمینال", "⚡ Open terminal"),
     "b_files": ("📁 فایل‌ها", "📁 Files"),
@@ -275,8 +274,8 @@ USER = {
         "🚨 <b>The server key doesn't match the pinned fingerprint!</b>\nFor safety the connection was not made. If you reinstalled SSH on the server, enable “This server” access again.\n<code>{detail}</code>",
     ),
     "conn_err_hostaccess": (
-        "🏠 <b>دسترسی به همین سرور آماده نیست</b>\nروی سرور این دستور رو اجرا کن و دوباره امتحان کن:\n<code>servermanager host-access enable</code>\n<code>{detail}</code>",
-        "🏠 <b>“This server” access isn't ready</b>\nRun this on the server, then try again:\n<code>servermanager host-access enable</code>\n<code>{detail}</code>",
+        "🏠 <b>دسترسی به همین سرور آماده نیست</b>\nروی سرور این دستور رو اجرا کن و دوباره امتحان کن:\n<code>AX-Manager host-access enable</code>\n<code>{detail}</code>",
+        "🏠 <b>“This server” access isn't ready</b>\nRun this on the server, then try again:\n<code>AX-Manager host-access enable</code>\n<code>{detail}</code>",
     ),
     "conn_err_blocked": (
         "⛔ اتصال به آدرس‌های داخلی، خصوصی و لوکال مجاز نیست (محافظت امنیتی).",

@@ -10,7 +10,7 @@ Automated tests cover the logic; these steps cover what only a real Telegram cli
 5. **Files** – browse, download (<50 MB), upload (<20 MB), new folder, delete (file, folder, symlink).
 6. **Monitor and toolbox** on a Debian and an Alpine/busybox host.
 7. **Downtime alerts** – watch a server, block its SSH port, wait for the alert, unblock, wait for "back online".
-8. **"This server"** – `servermanager host-access enable`, open it in the bot, confirm a non-admin never sees it,
+8. **"This server"** – `AX-Manager host-access enable`, open it in the bot, confirm a non-admin never sees it,
    then `disable` and confirm the key is gone from `authorized_keys`.
 9. **Backup / restore** – manual backup, restore on a second install with the backup password.
-10. **Update** – `servermanager update` keeps data and settings.
+10. **Update** – `AX-Manager update` keeps data and settings.

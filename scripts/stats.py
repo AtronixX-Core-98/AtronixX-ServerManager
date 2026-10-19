@@ -1,4 +1,4 @@
-"""Print one line of counters for the `servermanager` CLI dashboard: mode|users|subscribed|banned|hosts.
+"""Print one line of counters for the `AX-Manager` CLI dashboard: mode|users|subscribed|banned|hosts.
 
 Reads the SQLite database directly in read-only mode, so it has no side effects and needs no bot config.
 """

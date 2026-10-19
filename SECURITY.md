@@ -22,10 +22,10 @@ You will get a reply within a few days.
   database *and* the key). Self-host it, or only trust an operator you know.
 - **"This server" access gives the Telegram admin account full control of that machine.** Protect that account with
   Telegram two-step verification, and use a non-root user (with passwordless sudo only if you need it) if you prefer.
-  Disable it any time with `servermanager host-access disable`.
+  Disable it any time with `AX-Manager host-access disable`.
 - Anything typed into the terminal is executed as typed.
 
 ## Hardening checklist
 - Keep `BACKUP_PASSPHRASE` somewhere safe; store backup files privately.
 - Leave `ALLOWED_NETS` empty unless you really need private ranges.
-- Keep the bot updated (`servermanager update`).
+- Keep the bot updated (`AX-Manager update`).

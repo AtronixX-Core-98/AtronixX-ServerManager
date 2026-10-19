@@ -36,7 +36,7 @@ You need a Linux server (Debian/Ubuntu recommended), root access, a bot token fr
 and your numeric Telegram ID (a bot like @userinfobot shows it; once installed, `/id` does too).
 
 ```bash
-sudo bash <(curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh)
+curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh | sudo bash
 ```
 
 The installer checks your system, installs Docker if needed, validates your token with Telegram, creates a private
@@ -47,20 +47,20 @@ From a clone instead: `git clone https://github.com/AtronixX-Core-98/AtronixX-Se
 
 Unattended: `SM_YES=1 SM_BOT_TOKEN=… SM_ADMIN_ID=… sudo -E ./install.sh` (more: `SM_BRAND`, `SM_SUPPORT`, `SM_BACKUP_PASS`, `SM_HOST_ACCESS=1`).
 
-### The `servermanager` command
+### The `AX-Manager` command
 
-After installing, run `sudo servermanager` for the control panel, or:
+After installing, run `sudo AX-Manager` for the control panel, or:
 
 ```
-servermanager status          dashboard (state, uptime, users, plans, memory)
-servermanager doctor          health checks that explain what is wrong
-servermanager logs -f         follow the log
-servermanager update          update (backs up your data first)
-servermanager settings        change token, admin, name, timezone, allowed networks
-servermanager host-access     enable | disable | status | test  — manage THIS server from Telegram
-servermanager backup          local tar.gz of data + settings
-servermanager import-data D   import settings and data from another install folder
-servermanager uninstall
+AX-Manager status          dashboard (state, uptime, users, plans, memory)
+AX-Manager doctor          health checks that explain what is wrong
+AX-Manager logs -f         follow the log
+AX-Manager update          update (backs up your data first)
+AX-Manager settings        change token, admin, name, timezone, allowed networks
+AX-Manager host-access     enable | disable | status | test  — manage THIS server from Telegram
+AX-Manager backup          local tar.gz of data + settings
+AX-Manager import-data D   import settings and data from another install folder
+AX-Manager uninstall
 ```
 
 ## "This server" access
@@ -69,7 +69,7 @@ Lets **you, the admin**, open a terminal, browse files, see the monitor and use 
 on — the thing a container normally can't do.
 
 ```bash
-sudo servermanager host-access enable
+sudo AX-Manager host-access enable
 ```
 
 What it sets up: a dedicated ed25519 key in `data/host_key`; an `authorized_keys` entry limited with
@@ -110,7 +110,7 @@ server: install, then send the file to the bot in **Admin → Backup & restore �
 
 ## Upgrading from a pre-release build
 
-Install this version next to the old one or in place and run `servermanager import-data /path/to/old/install`. Existing
+Install this version next to the old one or in place and run `AX-Manager import-data /path/to/old/install`. Existing
 databases, encrypted credentials and backups keep working (`core/legacy_v1.py`; delete it if you never ran a pre-release build).
 
 ## Security
@@ -128,7 +128,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Forking? Point everything at your reposi
 
 ## Credits and support
 
-Created and maintained by **[AtronixX-Core](https://github.com/AtronixX-Core)**.
+Created and maintained by **[AtronixX-Core](https://github.com/AtronixX-Core-98)**.
 News and releases: [@AtronixX_Core](https://t.me/AtronixX_Core) · Help: [@AtronixX_Support](https://t.me/AtronixX_Support)
 
 > `SUPPORT_USERNAME` in `.env` is the support contact for **your** bot's users. The credits above are for the project itself.

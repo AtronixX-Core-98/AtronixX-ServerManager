@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ──────────────────────────────────────────────────────────────────────────────
-#  ServerManager — installer & control panel
-#  Manage your servers over SSH from Telegram.
+#  AX-Manager — installer & control panel for ServerManager
+#  Manage your servers over SSH from Telegram.   by AtronixX-Core
 #
-#  Usage:  servermanager [command]
+#  Usage:  AX-Manager [command]
 #    (no command)        interactive control panel
 #    install             guided installation (or re-configure)
 #    status              dashboard
@@ -19,7 +19,7 @@
 #    uninstall           remove the bot (asks before deleting data)
 #    version | help
 #
-#  Non-interactive install: SM_YES=1 SM_BOT_TOKEN=… SM_ADMIN_ID=… servermanager install
+#  Non-interactive install: SM_YES=1 SM_BOT_TOKEN=… SM_ADMIN_ID=… AX-Manager install
 # ──────────────────────────────────────────────────────────────────────────────
 set -uo pipefail
 
@@ -29,7 +29,8 @@ SM_BRANCH="${SM_BRANCH:-main}"
 SM_DIR="${SM_DIR:-/opt/servermanager}"
 CONTAINER="servermanager"
 NETWORK="servermanager_net"
-BIN_PATH="${SM_BIN:-/usr/local/bin/servermanager}"
+BIN_PATH="${SM_BIN:-/usr/local/bin/AX-Manager}"
+ALIAS_PATH="$(dirname "$BIN_PATH")/servermanager"   # kept as an alias of AX-Manager
 DEFAULT_SUBNETS=("172.28.77.0/24" "172.29.77.0/24" "172.30.77.0/24" "10.222.77.0/24" "192.168.222.0/24")
 
 ENV_FILE="$SM_DIR/.env"
@@ -45,34 +46,69 @@ trap 'echo; exit 130' INT
 
 # ── terminal styling ─────────────────────────────────────────────────────────
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
-  RST=$'\033[0m'; BOLD=$'\033[1m'; DIM=$'\033[2m'
-  RED=$'\033[38;5;203m'; GRN=$'\033[38;5;78m'; YEL=$'\033[38;5;221m'
-  BLU=$'\033[38;5;75m'; CYN=$'\033[38;5;51m'; MAG=$'\033[38;5;177m'; GRY=$'\033[38;5;245m'
+  RST=$'\033[0m'; BOLD=$'\033[1m'; DIM=$'\033[38;5;242m'
+  RED=$'\033[38;5;196m'; GRN=$'\033[38;5;82m'; YEL=$'\033[38;5;214m'
+  BLU=$'\033[38;5;75m'; CYN=$'\033[38;5;51m'; GRY=$'\033[38;5;242m'; TXT=$'\033[38;5;255m'
   INTERACTIVE_UI=1
 else
-  RST=""; BOLD=""; DIM=""; RED=""; GRN=""; YEL=""; BLU=""; CYN=""; MAG=""; GRY=""
+  RST=""; BOLD=""; DIM=""; RED=""; GRN=""; YEL=""; BLU=""; CYN=""; GRY=""; TXT=""
   INTERACTIVE_UI=0
 fi
+MAG="$RED"   # accent colour
 FRAMES=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+
+# terminal width, capped so lines stay readable on wide screens
+cols() { local c; c="$(tput cols 2>/dev/null || echo 78)"; [ "$c" -gt 78 ] && c=78; [ "$c" -lt 40 ] && c=40; echo "$c"; }
+repeat() { local n="$1" ch="$2" out=""; while [ "$n" -gt 0 ]; do out+="$ch"; n=$((n - 1)); done; printf '%s' "$out"; }
+vlen() { printf '%s' "$1" | sed 's/\x1b\[[0-9;]*m//g' | LC_ALL=C.UTF-8 wc -m; }
 
 ok()   { printf '  %s✔%s %s\n' "$GRN" "$RST" "$*"; }
 info() { printf '  %sℹ%s %s\n' "$BLU" "$RST" "$*"; }
 warn() { printf '  %s⚠%s %s\n' "$YEL" "$RST" "$*"; }
 bad()  { printf '  %s✘%s %s\n' "$RED" "$RST" "$*"; }
 die()  { printf '\n  %s✘ %s%s\n\n' "$RED" "$*" "$RST" >&2; exit 1; }
-rule() { printf '%s  ─────────────────────────────────────────────────%s\n' "$GRY" "$RST"; }
-title() { printf '\n  %s%s%s\n' "$BOLD" "$*" "$RST"; rule; }
-step() { printf '\n%s[%s/%s]%s %s%s%s\n' "$MAG" "$1" "$2" "$RST" "$BOLD" "$3" "$RST"; }
+rule() { printf '%s%s%s\n' "$GRY" "$(repeat "$(cols)" '─')" "$RST"; }
+title() { printf '\n %s%s%s\n' "$BOLD" "$*" "$RST"; rule; }
+
+# step N TOTAL "Title"  →  ▰▰▱▱▱▱  Title · step 2 of 6
+step() {
+  local n="$1" t="$2" bar="" i
+  for ((i = 1; i <= t; i++)); do if [ "$i" -le "$n" ]; then bar+="▰"; else bar+="▱"; fi; done
+  printf '\n %s%s%s  %s%s%s %s· step %s of %s%s\n' "$RED" "$bar" "$RST" "$BOLD$TXT" "$3" "$RST" "$GRY" "$n" "$t" "$RST"
+}
 
 banner() {
   [ "$INTERACTIVE_UI" = 1 ] && [ "${NO_CLEAR:-0}" != 1 ] && clear
   printf '\n'
-  printf '  %s╔═╗┌─┐┬─┐┬  ┬┌─┐┬─┐╔╦╗┌─┐┌┐┌┌─┐┌─┐┌─┐┬─┐%s\n' $'\033[38;5;39m' "$RST"
-  printf '  %s╚═╗├┤ ├┬┘└┐┌┘├┤ ├┬┘║║║├─┤│││├─┤│ ┬├┤ ├┬┘%s\n' $'\033[38;5;45m' "$RST"
-  printf '  %s╚═╝└─┘┴└─ └┘ └─┘┴└─╩ ╩┴ ┴┘└┘┴ ┴└─┘└─┘┴└─%s\n' $'\033[38;5;51m' "$RST"
-  printf '  %sManage your servers over SSH — from Telegram%s  %sv%s%s\n' "$GRY" "$RST" "$DIM" "$SM_VERSION" "$RST"
-  printf '  %sby %sAtronixX-Core%s %s· t.me/AtronixX_Core%s\n' "$GRY" "$BOLD" "$RST" "$GRY" "$RST"
+  if [ "$(cols)" -ge 66 ]; then
+    printf '%s' "$RED"
+    cat <<'ART'
+ █████╗ ████████╗██████╗  ██████╗ ███╗   ██╗██╗██╗  ██╗██╗  ██╗
+██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗████╗  ██║██║╚██╗██╔╝╚██╗██╔╝
+███████║   ██║   ██████╔╝██║   ██║██╔██╗ ██║██║ ╚███╔╝  ╚███╔╝
+██╔══██║   ██║   ██╔══██╗██║   ██║██║╚██╗██║██║ ██╔██╗  ██╔██╗
+██║  ██║   ██║   ██║  ██║╚██████╔╝██║ ╚████║██║██╔╝ ██╗██╔╝ ██╗
+╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+ART
+    printf '%s' "$RST"
+  else
+    printf ' %s%s▞▚ ATRONIXX ▞▚%s\n' "$RED" "$BOLD" "$RST"
+  fi
+  printf ' %s%sSERVER MANAGER%s  %sv%s%s   %sCLI: AX-Manager%s\n' "$BOLD" "$TXT" "$RST" "$GRY" "$SM_VERSION" "$RST" "$GRY" "$RST"
   rule
+  printf ' %s📡 Channel: %s@AtronixX_Core%s   %s💬 Support: %s@AtronixX_Support%s\n' "$TXT" "$RED" "$RST" "$TXT" "$RED" "$RST"
+  rule
+}
+
+# box helpers (keep emoji out of boxed rows: they break the padding)
+box_top() { printf ' %s╭%s╮%s\n' "$GRY" "$(repeat $(($(cols) - 4)) '─')" "$RST"; }
+box_mid() { printf ' %s├%s┤%s\n' "$GRY" "$(repeat $(($(cols) - 4)) '─')" "$RST"; }
+box_bot() { printf ' %s╰%s╯%s\n' "$GRY" "$(repeat $(($(cols) - 4)) '─')" "$RST"; }
+box_row() {
+  local text="$1" width pad
+  width=$(($(cols) - 6)); pad=$((width - $(vlen "$text")))
+  [ "$pad" -lt 0 ] && pad=0
+  printf ' %s│%s %s%*s %s│%s\n' "$GRY" "$RST" "$text" "$pad" "" "$GRY" "$RST"
 }
 
 # Run a command with a spinner; show the tail of its output when it fails.
@@ -136,10 +172,10 @@ confirm() {
 }
 
 # ── small helpers ────────────────────────────────────────────────────────────
-need_root() { [ "$(id -u)" -eq 0 ] || die "Please run as root:  sudo servermanager ${1:-}"; }
+need_root() { [ "$(id -u)" -eq 0 ] || die "Please run as root:  sudo AX-Manager ${1:-}"; }
 have() { command -v "$1" >/dev/null 2>&1; }
 is_installed() { [ -f "$ENV_FILE" ] && [ -f "$COMPOSE_FILE" ]; }
-need_installed() { is_installed || die "ServerManager is not installed yet. Run:  sudo servermanager install"; }
+need_installed() { is_installed || die "ServerManager is not installed yet. Run:  sudo AX-Manager install"; }
 dc() { docker compose -f "$COMPOSE_FILE" --project-directory "$SM_DIR" "$@"; }
 container_state() { docker inspect -f '{{.State.Status}}' "$CONTAINER" 2>/dev/null || echo "absent"; }
 
@@ -354,6 +390,10 @@ cmd_install() {
   local total=6 token admin pass brand support tz bot_name="" blocked subnet ans
   local reinstall=0; is_installed && reinstall=1
 
+  printf ' %sWhat happens next%s\n' "$BOLD$TXT" "$RST"
+  printf '  %s▸%s check your system   %s▸%s Docker   %s▸%s a few questions\n' "$RED" "$RST" "$RED" "$RST" "$RED" "$RST"
+  printf '  %s▸%s get the app         %s▸%s start    %s▸%s optional: manage this server\n' "$RED" "$RST" "$RED" "$RST" "$RED" "$RST"
+
   step 1 $total "Checking your system"
   preflight
 
@@ -375,7 +415,7 @@ cmd_install() {
     token="$(env_get BOT_TOKEN)"; token="${SM_BOT_TOKEN:-$token}"
     if [ -z "${SM_BOT_TOKEN:-}" ]; then
       local shown=""; [ -n "$token" ] && shown="${token%%:*}:••••"
-      ans="$(ask "Bot token" "$shown")"
+      ans="$(ask "🤖 Bot token" "$shown")"
       [ -n "$ans" ] && [ "$ans" != "$shown" ] && token="$ans"
     fi
     if [[ "$token" =~ ^[0-9]{6,}:[A-Za-z0-9_-]{30,}$ ]]; then
@@ -390,15 +430,15 @@ cmd_install() {
 
   while :; do
     admin="$(env_get ADMIN_ID)"; admin="${SM_ADMIN_ID:-$admin}"
-    if [ -z "${SM_ADMIN_ID:-}" ]; then admin="$(ask "Your numeric Telegram ID (@userinfobot shows it)" "$admin")"; fi
+    if [ -z "${SM_ADMIN_ID:-}" ]; then admin="$(ask "🆔 Your numeric Telegram ID (@userinfobot shows it)" "$admin")"; fi
     [[ "$admin" =~ ^[0-9]{5,}$ ]] && break
     is_yes_mode && die "SM_ADMIN_ID is missing or invalid."
     can_prompt || die "A numeric admin ID is required (set SM_ADMIN_ID)."
     bad "The ID must be a number, e.g. 123456789."
   done
 
-  brand="$(clean_brand "${SM_BRAND:-$(ask "Name shown in the bot" "$(env_get BOT_NAME)")}")"
-  support="${SM_SUPPORT:-$(ask "Support username to show on a button (optional, e.g. @myname)" "$(env_get SUPPORT_USERNAME)")}"
+  brand="$(clean_brand "${SM_BRAND:-$(ask "🏷  Name shown in the bot" "$(env_get BOT_NAME)")}")"
+  support="${SM_SUPPORT:-$(ask "💬 Support username for your users (optional)" "$(env_get SUPPORT_USERNAME)")}"
   [[ -z "$support" || "$support" =~ ^@?[A-Za-z][A-Za-z0-9_]{4,31}$ ]] || { warn "Ignoring invalid support username."; support=""; }
   tz="$(env_get TZ)"; tz="${tz:-$(detect_tz)}"
 
@@ -434,14 +474,14 @@ cmd_install() {
   step 6 $total "Optional: manage THIS server from Telegram"
   if [ "$started" = 1 ]; then
     if [ "${SM_HOST_ACCESS:-}" = 1 ]; then
-      host_access_enable || warn "Host access was not enabled. Retry with:  servermanager host-access enable"
+      host_access_enable || warn "Host access was not enabled. Retry with:  AX-Manager host-access enable"
     elif [ "$(env_get HOST_ACCESS)" != 1 ] && can_prompt; then
       printf '  %sThis lets you (the admin only) open a terminal, browse files and run tools on the machine the bot runs on.%s\n' "$DIM" "$RST"
       printf '  %sIt gives full control of this server to your Telegram account, so protect that account with 2-step verification.%s\n' "$DIM" "$RST"
       if confirm "Enable \"This server\" access?" n; then
-        host_access_enable || warn "Host access was not enabled. Retry with:  servermanager host-access enable"
+        host_access_enable || warn "Host access was not enabled. Retry with:  AX-Manager host-access enable"
       else
-        info "Skipped. Enable it any time with:  servermanager host-access enable"
+        info "Skipped. Enable it any time with:  AX-Manager host-access enable"
       fi
     else
       info "Host access: $([ "$(env_get HOST_ACCESS)" = 1 ] && echo enabled || echo off)"
@@ -456,33 +496,40 @@ cmd_install() {
 summary() {
   local started="$1" generated="$2" pass="$3" bot_name="$4"
   printf '\n'
-  rule
+  box_top
   if [ "$started" = 1 ]; then
-    printf '  %s%s✔ ServerManager is running%s\n\n' "$BOLD" "$GRN" "$RST"
-    [ -n "$bot_name" ] && printf '  %sOpen your bot:%s  %shttps://t.me/%s%s\n' "$DIM" "$RST" "$CYN" "$bot_name" "$RST"
-    printf '  %sThen send%s /start\n\n' "$DIM" "$RST"
+    box_row "${BOLD}${GRN}✔ SERVER MANAGER IS RUNNING${RST}"
   else
-    printf '  %s%s✘ Installed, but the bot is not running yet%s\n  Run  %sservermanager doctor%s  to see what is wrong.\n\n' "$BOLD" "$RED" "$RST" "$BOLD" "$RST"
+    box_row "${BOLD}${RED}✘ INSTALLED, BUT THE BOT IS NOT RUNNING${RST}"
   fi
+  box_mid
+  if [ "$started" = 1 ]; then
+    [ -n "$bot_name" ] && box_row "${GRY}Your bot  ${RST}${CYN}https://t.me/${bot_name}${RST}"
+    box_row "${GRY}Next      ${RST}open the bot and send ${BOLD}/start${RST}"
+  else
+    box_row "${GRY}Fix it    ${RST}run ${BOLD}AX-Manager doctor${RST}"
+  fi
+  box_row "${GRY}Panel     ${RST}${BOLD}sudo AX-Manager${RST}"
+  box_row "${GRY}Commands  ${RST}status · logs -f · update · doctor"
+  box_row "${GRY}Folder    ${RST}${SM_DIR}"
   if [ "$generated" = 1 ]; then
-    printf '  %s%sBackup password (save it somewhere safe — you need it to restore a backup):%s\n' "$BOLD" "$YEL" "$RST"
-    printf '    %s%s%s\n\n' "$BOLD" "$pass" "$RST"
+    box_mid
+    box_row "${YEL}${BOLD}BACKUP PASSWORD${RST}${YEL} - save it, you need it to restore${RST}"
+    box_row "${BOLD}${pass}${RST}"
   fi
-  printf '  %sInstall directory%s  %s\n' "$DIM" "$RST" "$SM_DIR"
-  printf '  %sControl panel%s      %ssudo servermanager%s\n' "$DIM" "$RST" "$BOLD" "$RST"
-  printf '  %sUseful commands%s    status · logs -f · update · doctor · host-access\n' "$DIM" "$RST"
-  printf '  %sHelp & news%s        t.me/AtronixX_Support · t.me/AtronixX_Core\n' "$DIM" "$RST"
-  rule
-  printf '\n'
+  box_bot
+  printf ' %s📡 @AtronixX_Core   💬 @AtronixX_Support%s\n\n' "$GRY" "$RST"
 }
 
 install_self() {
   local src="${BASH_SOURCE[0]}"
   if [ -r "$src" ] && [ "$(readlink -f "$src")" != "$(readlink -f "$BIN_PATH" 2>/dev/null)" ]; then
-    install -m 755 "$src" "$BIN_PATH" 2>/dev/null && return 0
+    install -m 755 "$src" "$BIN_PATH" 2>/dev/null
+  elif [ ! -x "$BIN_PATH" ]; then
+    curl -fsSL "https://raw.githubusercontent.com/${SM_REPO}/${SM_BRANCH}/scripts/servermanager.sh" -o "$BIN_PATH" 2>/dev/null && chmod 755 "$BIN_PATH"
   fi
-  [ -x "$BIN_PATH" ] && return 0
-  curl -fsSL "https://raw.githubusercontent.com/${SM_REPO}/${SM_BRANCH}/scripts/servermanager.sh" -o "$BIN_PATH" 2>/dev/null && chmod 755 "$BIN_PATH"
+  [ -x "$BIN_PATH" ] && ln -sf "$BIN_PATH" "$ALIAS_PATH" 2>/dev/null
+  return 0
 }
 
 # ── "This server" access ─────────────────────────────────────────────────────
@@ -569,7 +616,7 @@ host_access_enable() {
   fix_permissions
   spin "Restarting the bot" dc up -d --force-recreate || return 1
   wait_started || { bad "The bot did not come back up."; return 1; }
-  host_access_test || { warn "The connection test failed — see above. Run  servermanager host-access test  after fixing it."; return 1; }
+  host_access_test || { warn "The connection test failed — see above. Run  AX-Manager host-access test  after fixing it."; return 1; }
   printf '\n  %s✔ Done.%s In Telegram open the bot → %s🏠 This server%s.\n' "$GRN" "$RST" "$BOLD" "$RST"
   warn "Anyone controlling your Telegram admin account controls this server — enable 2-step verification."
 }
@@ -599,7 +646,7 @@ host_access_status() {
     ok "Enabled — user $(env_get HOST_SSH_USER), port $(env_get HOST_SSH_PORT)"
     [ -f "$DATA_DIR/host_key" ] && info "Key: $DATA_DIR/host_key (created $(date -r "$DATA_DIR/host_key" '+%Y-%m-%d'))"
   else
-    info "Off. Enable it with:  servermanager host-access enable"
+    info "Off. Enable it with:  AX-Manager host-access enable"
   fi
 }
 
@@ -609,7 +656,7 @@ cmd_host_access() {
     disable) host_access_disable ;;
     test)    need_installed; host_access_test ;;
     status)  host_access_status ;;
-    *) die "Usage: servermanager host-access [enable|disable|status|test]" ;;
+    *) die "Usage: AX-Manager host-access [enable|disable|status|test]" ;;
   esac
 }
 
@@ -624,28 +671,22 @@ fmt_uptime() {
 }
 
 dashboard() {
-  local state dot label ram stats mode users subs banned hosts ip
+  local state sc label ram stats mode="-" users="-" subs="-" banned="-" hosts="-" up="-" hc ht ip
   state="$(container_state)"
-  case "$state" in
-    running) dot="${GRN}●${RST}"; label="Running · up $(fmt_uptime)" ;;
-    absent)  dot="${GRY}●${RST}"; label="Not installed" ;;
-    *)       dot="${RED}●${RST}"; label="$state" ;;
-  esac
-  printf '  %s %s%s%s\n' "$dot" "$BOLD" "$label" "$RST"
+  case "$state" in running) sc="$GRN"; label="RUNNING" ;; absent) sc="$GRY"; label="NOT INSTALLED" ;; *) sc="$RED"; label="${state^^}" ;; esac
   if [ "$state" = running ]; then
+    up="$(fmt_uptime)"
     ram="$(docker stats --no-stream --format '{{.MemUsage}}' "$CONTAINER" 2>/dev/null | awk '{print $1}')"
     stats="$(counters)"
-    if [ -n "$stats" ]; then
-      IFS='|' read -r mode users subs banned hosts <<<"$stats"
-      printf '  %sMode%s %s   %sUsers%s %s   %sPlans%s %s   %sBanned%s %s   %sServers%s %s\n' \
-        "$DIM" "$RST" "$mode" "$DIM" "$RST" "$users" "$DIM" "$RST" "$subs" "$DIM" "$RST" "$banned" "$DIM" "$RST" "$hosts"
-    fi
-    [ -n "$ram" ] && printf '  %sMemory%s %s   %sVersion%s %s\n' "$DIM" "$RST" "$ram" "$DIM" "$RST" "$SM_VERSION"
+    [ -n "$stats" ] && IFS='|' read -r mode users subs banned hosts <<<"$stats"
   fi
-  if is_installed; then
-    printf '  %s"This server" access%s %s\n' "$DIM" "$RST" "$([ "$(env_get HOST_ACCESS)" = 1 ] && printf '%son%s' "$GRN" "$RST" || printf 'off')"
-    ip="$(first_ip)"; [ -n "$ip" ] && printf '  %sServer IP%s %s\n' "$DIM" "$RST" "$ip"
-  fi
+  hc="$GRY"; ht="off"; if is_installed && [ "$(env_get HOST_ACCESS)" = 1 ]; then hc="$GRN"; ht="on"; fi
+  ip="$(first_ip)"
+  printf ' %s●%s BOT      %s%-13s%s %s●%s MODE    %s%s%s\n' "$TXT" "$RST" "$sc" "$label" "$RST" "$TXT" "$RST" "$CYN" "$mode" "$RST"
+  printf ' %s●%s USERS    %s%-13s%s %s●%s PLANS   %s%s%s\n' "$TXT" "$RST" "$GRN" "$users" "$RST" "$TXT" "$RST" "$GRN" "$subs" "$RST"
+  printf ' %s●%s SERVERS  %s%-13s%s %s●%s BANNED  %s%s%s\n' "$TXT" "$RST" "$GRN" "$hosts" "$RST" "$TXT" "$RST" "$GRN" "$banned" "$RST"
+  printf ' %s●%s UPTIME   %s%-13s%s %s●%s RAM     %s%s%s\n' "$TXT" "$RST" "$CYN" "$up" "$RST" "$TXT" "$RST" "$CYN" "${ram:--}" "$RST"
+  printf ' %s●%s THIS-SRV %s%-13s%s %s●%s IP      %s%s%s\n' "$TXT" "$RST" "$hc" "$ht" "$RST" "$TXT" "$RST" "$CYN" "${ip:--}" "$RST"
 }
 
 cmd_status() { banner; dashboard; rule; }
@@ -658,11 +699,11 @@ cmd_doctor() {
 
   if have docker && docker info >/dev/null 2>&1; then ok "Docker is running"; else bad "Docker is not running (systemctl start docker)"; problems=$((problems + 1)); fi
   if docker compose version >/dev/null 2>&1; then ok "Docker Compose v2 available"; else bad "Docker Compose v2 is missing"; problems=$((problems + 1)); fi
-  if is_installed; then ok "Installed in $SM_DIR"; else bad "Not installed (run: servermanager install)"; return 1; fi
+  if is_installed; then ok "Installed in $SM_DIR"; else bad "Not installed (run: AX-Manager install)"; return 1; fi
 
   if [ "$(stat -c %a "$ENV_FILE" 2>/dev/null)" = 600 ]; then ok ".env is private (600)"; else warn ".env should be mode 600 — fixed"; chmod 600 "$ENV_FILE"; fi
   tok="$(env_get BOT_TOKEN)"
-  if [[ "$tok" =~ ^[0-9]{6,}:[A-Za-z0-9_-]{30,}$ ]]; then ok "Bot token format is valid"; else bad "BOT_TOKEN looks invalid (servermanager settings)"; problems=$((problems + 1)); fi
+  if [[ "$tok" =~ ^[0-9]{6,}:[A-Za-z0-9_-]{30,}$ ]]; then ok "Bot token format is valid"; else bad "BOT_TOKEN looks invalid (AX-Manager settings)"; problems=$((problems + 1)); fi
   if [[ "$(env_get ADMIN_ID)" =~ ^[0-9]{5,}$ ]]; then ok "Admin ID is set"; else bad "ADMIN_ID is invalid"; problems=$((problems + 1)); fi
   if who="$(telegram_getme "$tok")" && [ -n "$who" ]; then ok "Telegram accepts the token (@$who)"; else warn "Cannot verify the token with Telegram (network or wrong token)"; fi
 
@@ -673,7 +714,7 @@ cmd_doctor() {
     if [ "${restarts:-0}" -gt 3 ]; then warn "The container restarted $restarts times — check the logs"; problems=$((problems + 1)); fi
     if docker logs "$CONTAINER" 2>&1 | grep -q "started as @"; then ok "The bot connected to Telegram"; else warn "No 'started' line in the log yet"; fi
     errs="$(docker logs --tail 200 "$CONTAINER" 2>&1 | grep -cE ' (ERROR|CRITICAL) ' || true)"
-    [ "${errs:-0}" -gt 0 ] && warn "$errs error lines in the recent log (servermanager logs)"
+    [ "${errs:-0}" -gt 0 ] && warn "$errs error lines in the recent log (AX-Manager logs)"
   else
     bad "Container state: $state"; problems=$((problems + 1))
     docker logs --tail 8 "$CONTAINER" 2>&1 | sed 's/^/      /'
@@ -750,7 +791,7 @@ cmd_settings() {
 cmd_import_data() {
   need_root import-data; need_installed
   local src="${1:-}" k v
-  [ -d "$src" ] && [ -f "$src/.env" ] || die "Usage: servermanager import-data /path/to/old/install   (the folder that holds .env and data/)"
+  [ -d "$src" ] && [ -f "$src/.env" ] || die "Usage: AX-Manager import-data /path/to/old/install   (the folder that holds .env and data/)"
   confirm "Replace this installation's settings and data with the ones from $src?" n || return 0
   dc stop >/dev/null 2>&1 || true
   for k in BOT_TOKEN ADMIN_ID BACKUP_PASSPHRASE SUPPORT_USERNAME TZ BLOCKED_IPS BACKUP_INTERVAL_HOURS MAX_LIVE_SESSIONS IDLE_TIMEOUT_MIN MAX_SESSION_HOURS; do
@@ -775,7 +816,7 @@ cmd_uninstall() {
   else
     info "Kept $SM_DIR (data and settings). Delete it manually when you no longer need it."
   fi
-  rm -f "$BIN_PATH"
+  rm -f "$BIN_PATH" "$ALIAS_PATH"
   ok "Done"
 }
 
@@ -786,12 +827,13 @@ cmd_menu() {
   local c
   while :; do
     banner; dashboard; rule
-    printf '\n  %s1)%s Health check          %s6)%s Settings\n' "$CYN" "$RST" "$CYN" "$RST"
-    printf '  %s2)%s Show logs             %s7)%s "This server" access\n' "$CYN" "$RST" "$CYN" "$RST"
-    printf '  %s3)%s Restart               %s8)%s Local backup\n' "$CYN" "$RST" "$CYN" "$RST"
-    printf '  %s4)%s Stop / Start          %s9)%s Uninstall\n' "$CYN" "$RST" "$CYN" "$RST"
-    printf '  %s5)%s Update                %s0)%s Exit\n\n' "$CYN" "$RST" "$CYN" "$RST"
-    c="$(ask "Choose" "0")"
+    printf '\n'
+    printf '  %s[1]%s Health check          %s[6]%s Settings\n' "$RED" "$RST" "$RED" "$RST"
+    printf '  %s[2]%s Show logs             %s[7]%s This-server access\n' "$RED" "$RST" "$RED" "$RST"
+    printf '  %s[3]%s Restart               %s[8]%s Local backup\n' "$RED" "$RST" "$RED" "$RST"
+    printf '  %s[4]%s Stop / Start          %s[9]%s Uninstall\n' "$RED" "$RST" "$RED" "$RST"
+    printf '  %s[5]%s Update                %s[0]%s Exit\n\n' "$RED" "$RST" "$RED" "$RST"
+    c="$(ask "▸ Choose" "0")"
     NO_CLEAR=1
     case "$c" in
       1) cmd_doctor ;;
@@ -831,7 +873,7 @@ main() {
     backup)      cmd_backup ;;
     import-data) shift; cmd_import_data "${1:-}" ;;
     uninstall)   cmd_uninstall ;;
-    version|-v|--version) echo "servermanager $SM_VERSION" ;;
+    version|-v|--version) echo "AX-Manager $SM_VERSION" ;;
     help|-h|--help) cmd_help ;;
     *) printf 'Unknown command: %s\n\n' "$1" >&2; cmd_help; exit 1 ;;
   esac

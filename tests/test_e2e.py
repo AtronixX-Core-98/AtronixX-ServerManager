@@ -45,8 +45,7 @@ async def test_admin_start_shows_branded_menu_without_old_branding(env):
     cbs = req.callbacks()
     assert "menu:hosts" in cbs and "hosts:add" in cbs and "adm:home" in cbs
     assert "h:view:0" not in cbs                 # host access is off by default
-    urls = [b["url"] for b in req.buttons() if "url" in b]
-    assert urls == ["https://t.me/AtronixX_Core"]       # only the project credit; no support button without SUPPORT_USERNAME
+    assert not any("url" in b for b in req.buttons())   # no support/credit buttons in the menu without SUPPORT_USERNAME
     await say(app, req, ADMIN, "/help")
     assert "AtronixX-Core" in req.last_text() and "@AtronixX_Support" in req.last_text()
 

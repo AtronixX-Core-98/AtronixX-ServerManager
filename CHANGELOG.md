@@ -6,7 +6,7 @@ A ground-up polish of the private pre-release builds. Everything below is relati
 
 ### New
 - **"This server" access** – the admin can open a terminal, browse files, see the monitor and use the toolbox on
-  the machine the bot itself runs on. Opt-in (`servermanager host-access enable`): a dedicated ed25519 key that only
+  the machine the bot itself runs on. Opt-in (`AX-Manager host-access enable`): a dedicated ed25519 key that only
   works from the bot's private Docker network, pinned SSH host keys, admin only.
 - **Toolbox** – one-tap read-only tools (top processes, disk, ports, Docker, failed services, recent errors, logins,
   pending updates) and a confirmed reboot.
@@ -15,7 +15,7 @@ A ground-up polish of the private pre-release builds. Everything below is relati
 - **Terminal** – a second page of keys (Ctrl+X/O/A/E/R/U/W/K, Home/End, PgUp/PgDn) for nano, less and readline.
 - **Friendly connection errors** – wrong password, refused, timed out, unknown host, changed host key…
 - `ALLOWED_NETS` to let users reach private ranges (LAN / VPN); `/id` command; configurable bot name.
-- A completely new installer and control panel (`servermanager`): guided install, token validation, health checks
+- A completely new installer and control panel (`AX-Manager`): guided install, token validation, health checks
   (`doctor`), safe `update` with automatic backup, `settings`, local `backup`, build-from-source fallback.
 
 ### Fixed

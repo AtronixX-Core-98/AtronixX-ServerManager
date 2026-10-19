@@ -1,4 +1,4 @@
-"""Diagnose "This server" access from inside the bot container (used by `servermanager host-access`)."""
+"""Diagnose "This server" access from inside the bot container (used by `AX-Manager host-access`)."""
 
 import asyncio
 import os

@@ -11,7 +11,6 @@ from typing import Iterable, Optional
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-import credits
 from config import settings
 from core.jdate import fmt_num
 from locales.strings import t
@@ -68,7 +67,6 @@ def main_menu_kb(lang: str, admin: bool, local_host: bool = False) -> InlineKeyb
         rows.append([btn(t("b_support", lang), url=settings.support_url)])
     if admin:
         rows.append([btn(t("b_admin", lang), "adm:home", PRIMARY)])
-    rows.append([btn(t("b_credit", lang), url=credits.CHANNEL_URL)])
     return kb(rows)
 
 
