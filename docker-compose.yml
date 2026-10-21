@@ -3,7 +3,7 @@ name: servermanager
 
 services:
   bot:
-    image: ${SM_IMAGE:-ghcr.io/atronixx-core-98/atronixx-servermanager:latest}
+    image: ${SM_IMAGE:-ghcr.io/atronixx-core/atronixx-servermanager:latest}
     container_name: servermanager
     restart: unless-stopped
     env_file: .env
@@ -32,6 +32,9 @@ networks:
   sm_net:
     name: servermanager_net
     driver: bridge
+    driver_opts:
+      # Match your server's uplink MTU (see `ip link`); a too-large bridge MTU can stall SSH handshakes.
+      com.docker.network.driver.mtu: "${SM_MTU:-1500}"
     ipam:
       config:
         # A fixed subnet lets the host's sshd accept the bot's key only from this network.

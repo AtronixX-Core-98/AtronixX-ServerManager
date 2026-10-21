@@ -1,0 +1,394 @@
+"""User-facing texts: (Persian, English). Telegram HTML; {name} values are escaped automatically."""
+
+import credits
+
+LINE = "━━━━━━━━━━━━━━━━"
+H = "🖥 <b>%BRAND%</b>\n" + LINE + "\n"
+
+USER = {
+    # ------------------------------------------------------------ buttons
+    "b_back": ("🔙 بازگشت", "🔙 Back"),
+    "b_cancel": ("✖️ انصراف", "✖️ Cancel"),
+    "b_yes": ("✅ بله", "✅ Yes"),
+    "b_menu": ("🏠 منوی اصلی", "🏠 Main menu"),
+    "b_close": ("✖️ بستن", "✖️ Close"),
+    "b_hosts": ("🖥 سرورهای من", "🖥 My servers"),
+    "b_add": ("➕ سرور جدید", "➕ Add server"),
+    "b_this_server": ("🏠 همین سرور (محل اجرای ربات)", "🏠 This server (where the bot runs)"),
+    "b_snip": ("⚡ دستورهای آماده", "⚡ Saved commands"),
+    "b_groups": ("🗂 گروه‌ها", "🗂 Groups"),
+    "b_account": ("👤 حساب من", "👤 My account"),
+    "b_lang": ("🌐 English", "🌐 فارسی"),
+    "b_support": ("💬 پشتیبانی", "💬 Support"),
+    "b_admin": ("👑 پنل مدیریت", "👑 Admin panel"),
+    "b_connect": ("⚡ باز کردن ترمینال", "⚡ Open terminal"),
+    "b_files": ("📁 فایل‌ها", "📁 Files"),
+    "b_monitor": ("📊 مانیتور", "📊 Monitor"),
+    "b_toolbox": ("🧰 ابزارها", "🧰 Toolbox"),
+    "b_test": ("🧪 تست اتصال", "🧪 Test connection"),
+    "b_fav": ("⭐ افزودن به محبوب‌ها", "⭐ Add to favorites"),
+    "b_unfav": ("☆ حذف از محبوب‌ها", "☆ Remove from favorites"),
+    "b_watch_on": ("🔔 اعلان قطعی", "🔔 Downtime alerts"),
+    "b_watch_off": ("🔕 خاموش‌کردن اعلان", "🔕 Turn alerts off"),
+    "b_move": ("🗂 گروه", "🗂 Group"),
+    "b_edit": ("✏️ ویرایش", "✏️ Edit"),
+    "b_delete": ("🗑 حذف", "🗑 Delete"),
+    "b_delete_yes": ("🗑 بله، حذف کن", "🗑 Yes, delete"),
+    "b_nogroup": ("➖ بدون گروه", "➖ No group"),
+    "b_trust": ("✅ مطمئنم، وصل شو", "✅ I trust it, connect"),
+    "b_port22": ("🔌 پورت ۲۲ (پیش‌فرض)", "🔌 Port 22 (default)"),
+    "b_user_root": ("👤 root", "👤 root"),
+    "b_auth_pw": ("🔑 پسورد", "🔑 Password"),
+    "b_auth_key": ("🗝 کلید خصوصی", "🗝 Private key"),
+    "b_save": ("💾 ذخیره", "💾 Save"),
+    "b_enter": ("⏎ Enter", "⏎ Enter"),
+    "b_more_keys": ("⌨️ کلیدهای بیشتر", "⌨️ More keys"),
+    "b_keys_back": ("⬅️ کلیدهای اصلی", "⬅️ Main keys"),
+    "b_clear": ("🧹 پاک‌کردن صفحه", "🧹 Clear screen"),
+    "b_log": ("📥 ذخیره‌ی خروجی", "📥 Save output"),
+    "b_exit": ("🚪 خروج", "🚪 Exit"),
+    "b_up": ("⬆️ پوشه‌ی بالا", "⬆️ Up"),
+    "b_refresh": ("🔄 به‌روزرسانی", "🔄 Refresh"),
+    "b_upload": ("📤 آپلود", "📤 Upload"),
+    "b_mkdir": ("📁 پوشه‌ی جدید", "📁 New folder"),
+    "b_delmode": ("🗑 حالت حذف", "🗑 Delete mode"),
+    "b_delmode_off": ("↩️ خروج از حالت حذف", "↩️ Leave delete mode"),
+    "b_reconnect": ("🔌 بستن نشست قبلی و اتصال جدید", "🔌 Close the old session and connect"),
+    "b_host": ("🖥 برگشت به سرور", "🖥 Back to the server"),
+    "b_add_snip": ("➕ دستور جدید", "➕ New command"),
+    "b_add_group": ("➕ گروه جدید", "➕ New group"),
+    "b_open": ("📂 باز کردن", "📂 Open"),
+    "b_accept": ("✅ قوانین رو می‌پذیرم", "✅ I accept the terms"),
+    "b_joined": ("✅ عضو شدم", "✅ I joined"),
+    "b_delete_account": ("🗑 حذف حساب و همه‌ی داده‌ها", "🗑 Delete my account and data"),
+    "b_reboot_yes": ("🔄 بله، ری‌استارت کن", "🔄 Yes, reboot"),
+    "f_label": ("🏷 نام", "🏷 Name"),
+    "f_addr": ("🌐 آدرس (IP یا دامنه)", "🌐 Address (IP or domain)"),
+    "f_port": ("🔌 پورت", "🔌 Port"),
+    "f_user": ("👤 نام کاربری", "👤 Username"),
+    "f_password": ("🔑 پسورد", "🔑 Password"),
+    # ------------------------------------------------------------ general
+    "yes": ("بله", "Yes"),
+    "no": ("خیر", "No"),
+    "on": ("روشن", "on"),
+    "off": ("خاموش", "off"),
+    "friend": ("دوست من", "friend"),
+    "auth_pw": ("🔑 پسورد", "🔑 Password"),
+    "auth_key": ("🗝 کلید خصوصی", "🗝 Private key"),
+    "mode_free": ("🟢 عمومی", "🟢 Public"),
+    "mode_paid": ("💎 اشتراکی", "💎 Subscription"),
+    "cancelled": ("✅ لغو شد.", "✅ Cancelled."),
+    "flow_expired": ("⌛ این مرحله منقضی شده. از منو دوباره شروع کن.", "⌛ This step has expired. Please start again from the menu."),
+    "internal_error": ("⚠️ یه خطای غیرمنتظره پیش اومد. دوباره امتحان کن؛ اگه تکرار شد به ادمین خبر بده.", "⚠️ Something went wrong on our side. Please try again; if it keeps happening, tell the admin."),
+    "rate_limited": ("⏳ خیلی سریع تلاش کردی. {sec} ثانیه‌ی دیگه دوباره امتحان کن.", "⏳ Too many attempts. Try again in {sec}s."),
+    "unexpected_file": ("📎 الان منتظر فایل نبودم. از منوی اصلی شروع کن.", "📎 I wasn't expecting a file right now. Start from the main menu."),
+    "your_id": ("🆔 آیدی عددی تو: <code>{uid}</code>", "🆔 Your numeric ID: <code>{uid}</code>"),
+    "boot_notice": (
+        "✅ <b>%BRAND%</b> v{version} روشن شد و آماده‌ست.\nحالت فعلی: {mode}",
+        "✅ <b>%BRAND%</b> v{version} is up and running.\nCurrent mode: {mode}",
+    ),
+    "boot_host_access": (
+        "🏠 دسترسی به «همین سرور» فعاله و فقط برای تو در دسترسه.",
+        "🏠 \"This server\" access is on and available to you only.",
+    ),
+    "main_menu": (
+        H + "سلام <b>{name}</b> 👋\nترمینال، فایل‌ها و وضعیت سرورهات — همه‌چیز همین‌جا توی تلگرام.\n\n{status}\n🗄 سرورهای ذخیره‌شده: <b>{hosts}</b>\n\n👇 از یکی از گزینه‌ها شروع کن",
+        H + "Hi <b>{name}</b> 👋\nTerminal, files and health of your servers — all inside Telegram.\n\n{status}\n🗄 Saved servers: <b>{hosts}</b>\n\n👇 Pick something to start",
+    ),
+    "st_admin": ("👑 <b>ادمین</b> · دسترسی کامل", "👑 <b>Admin</b> · full access"),
+    "st_free": ("🟢 حالت عمومی · همه‌ی امکانات در دسترسه", "🟢 Public mode · every feature is available"),
+    "st_paid": (
+        "💎 اشتراک فعال تا <b>{until}</b> ({days} روز مونده)\n🗄 سرورها: <b>{used}</b> از <b>{max}</b>",
+        "💎 Plan active until <b>{until}</b> ({days} days left)\n🗄 Servers: <b>{used}</b> of <b>{max}</b>",
+    ),
+    "help": (
+        H + "📖 <b>راهنما</b>\n\n"
+        "⚡ <b>ترمینال زنده</b>\nهر متنی بفرستی داخل ترمینال تایپ می‌شه (و پیامت پاک می‌شه تا پسوردها توی چت نمونن). دکمه‌های Ctrl+C، Tab، جهت‌ها و کلیدهای ویرایشگر زیر ترمینال هستن.\n\n"
+        "📁 <b>فایل‌ها</b>\nمرور پوشه‌ها، دانلود (تا ۵۰ مگابایت)، آپلود (تا ۲۰ مگابایت)، ساخت پوشه و حذف.\n\n"
+        "📊 <b>مانیتور</b>\nCPU، رم، دیسک، آپتایم و پرمصرف‌ترین پردازش‌ها با یک لمس.\n\n"
+        "🧰 <b>ابزارها</b>\nکارهای رایج بدون تایپ: پردازش‌ها، پورت‌های باز، داکر، سرویس‌های خراب، آپدیت‌ها و ری‌استارت.\n\n"
+        "🔔 <b>اعلان قطعی</b>\nاگه سروری از دسترس خارج بشه (و دوباره وصل بشه) همین‌جا خبرت می‌کنم.\n\n"
+        "⚡ <b>دستورهای آماده</b>\nدستورهای پرکاربردت رو ذخیره کن و با یک دکمه اجرا کن.\n\n"
+        "🆘 هر جا گیر کردی: /cancel یا /start\n🆔 آیدی عددی‌ت: /id\n\n"
+        "💙 ساخته‌شده توسط <b>" + credits.AUTHOR + "</b>\n📢 " + credits.CHANNEL + " · 💬 " + credits.SUPPORT,
+        H + "📖 <b>Help</b>\n\n"
+        "⚡ <b>Live terminal</b>\nAnything you send is typed into the terminal (and your message is deleted so passwords don't stay in the chat). Ctrl+C, Tab, arrows and editor keys are under the terminal.\n\n"
+        "📁 <b>Files</b>\nBrowse folders, download (up to 50 MB), upload (up to 20 MB), create folders and delete.\n\n"
+        "📊 <b>Monitor</b>\nCPU, RAM, disk, uptime and the hungriest processes in one tap.\n\n"
+        "🧰 <b>Toolbox</b>\nCommon jobs without typing: processes, open ports, Docker, failed services, updates and reboot.\n\n"
+        "🔔 <b>Downtime alerts</b>\nIf a server becomes unreachable (and when it comes back) you are told right here.\n\n"
+        "⚡ <b>Saved commands</b>\nSave your favorite commands and run them with one tap.\n\n"
+        "🆘 Stuck anywhere? /cancel or /start\n🆔 Your numeric ID: /id\n\n"
+        "💙 Made by <b>" + credits.AUTHOR + "</b>\n📢 " + credits.CHANNEL + " · 💬 " + credits.SUPPORT,
+    ),
+    # ------------------------------------------------------------ gate
+    "no_access": (
+        H + "🔒 <b>دسترسی نداری</b>\n\nاستفاده از این ربات نیاز به اشتراک فعال داره. برای دریافت دسترسی با ادمین ربات در ارتباط باش و این آیدی رو بهش بده:\n\n🆔 <code>{uid}</code>",
+        H + "🔒 <b>No access yet</b>\n\nThis bot needs an active plan. Contact the bot's admin to get access and give them this ID:\n\n🆔 <code>{uid}</code>",
+    ),
+    "no_access_expired": (
+        H + "⌛ <b>اشتراکت تموم شده</b>\n\nبرای تمدید با ادمین ربات در ارتباط باش و این آیدی رو بهش بده:\n\n🆔 <code>{uid}</code>\n\n<i>سرورهای ذخیره‌شده‌ت سر جاشونن و بعد از تمدید دوباره در دسترس می‌شن.</i>",
+        H + "⌛ <b>Your plan has expired</b>\n\nContact the bot's admin to renew and give them this ID:\n\n🆔 <code>{uid}</code>\n\n<i>Your saved servers are kept and come back after renewal.</i>",
+    ),
+    "banned": (
+        H + "🚫 <b>دسترسی‌ت مسدود شده</b>\nاگه فکر می‌کنی اشتباهی شده، با ادمین ربات در ارتباط باش.",
+        H + "🚫 <b>Your access has been blocked</b>\nIf you think this is a mistake, contact the bot's admin.",
+    ),
+    "terms": (
+        H + "📜 <b>قوانین استفاده</b>\n\n"
+        "🔐 این ربات فقط به سرورهایی وصل می‌شه که خودت اضافه می‌کنی؛ مسئولیت دسترسی و کارهایی که روی اون‌ها انجام می‌دی با خودته.\n"
+        "🛡 پسوردها و کلیدها با AES-256 رمز می‌شن و ادمین ربات از داخل ربات هیچ‌وقت نمی‌تونه ببینتشون. با این حال، کسی که سرورِ ربات رو در اختیار داره از نظر فنی به داده‌ها دسترسی داره؛ فقط به رباتی اعتماد کن که ادمینش رو می‌شناسی.\n"
+        "🚫 حمله، اسکن، نفوذ یا هر کار غیرقانونی ممنوعه و به مسدود شدن حسابت می‌رسه.\n"
+        "⚖️ سرویس بدون هیچ ضمانتی ارائه می‌شه.\n\nبا زدن دکمه‌ی زیر، قوانین رو می‌پذیری 👇",
+        H + "📜 <b>Terms of use</b>\n\n"
+        "🔐 This bot only connects to servers you add yourself; you are responsible for your access and for what you do on them.\n"
+        "🛡 Passwords and keys are encrypted with AES-256 and the bot's admin can never see them from inside the bot. Still, whoever controls the bot's own server can technically reach the data, so only trust a bot whose admin you know.\n"
+        "🚫 Attacks, scanning, intrusion or anything illegal is forbidden and gets your account blocked.\n"
+        "⚖️ The service is provided without any warranty.\n\nTap the button below to accept 👇",
+    ),
+    "join_required": (
+        H + "📢 <b>اول عضو کانال بشو</b>\nبرای استفاده از ربات باید توی کانال(های) زیر عضو باشی. بعدش دکمه‌ی «عضو شدم» رو بزن.",
+        H + "📢 <b>Join first</b>\nTo use the bot you need to be a member of the channel(s) below. Then tap “I joined”.",
+    ),
+    "join_still": ("❗ هنوز عضو کانال نشدی.", "❗ You haven't joined yet."),
+    "activated": (
+        H + "🎉 <b>اشتراکت فعال شد!</b>\n\n⏳ مدت: <b>{days}</b> روز\n🗄 تعداد سرور: <b>{hosts}</b>\n📅 اعتبار تا: <b>{until}</b>\n\n🚀 از منوی زیر شروع کن",
+        H + "🎉 <b>Your plan is active!</b>\n\n⏳ Duration: <b>{days}</b> days\n🗄 Servers: <b>{hosts}</b>\n📅 Valid until: <b>{until}</b>\n\n🚀 Start from the menu below",
+    ),
+    "sub_warn_3": ("⏰ <b>اشتراکت تا ۳ روز دیگه تموم می‌شه.</b>\nبرای تمدید با ادمین ربات در ارتباط باش.", "⏰ <b>Your plan ends in 3 days.</b>\nContact the bot's admin to renew."),
+    "sub_warn_1": ("🚨 <b>کمتر از ۱ روز تا پایان اشتراکت مونده!</b>\nبرای تمدید با ادمین ربات در ارتباط باش.", "🚨 <b>Less than 1 day left on your plan!</b>\nContact the bot's admin to renew."),
+    "sub_expired_notice": ("⌛ <b>اشتراکت تموم شد.</b>\nبرای تمدید با ادمین ربات در ارتباط باش؛ سرورهات حفظ شدن.", "⌛ <b>Your plan has ended.</b>\nContact the bot's admin to renew; your servers are kept."),
+    "access_lost": ("🔒 دسترسی‌ت به ربات قطع شد و نشست بسته شد.", "🔒 Your access was revoked and the session was closed."),
+    "msg_from_support": ("📩 <b>پیام از ادمین</b>", "📩 <b>Message from the admin</b>"),
+    # ------------------------------------------------------------ account
+    "account": (
+        H + "👤 <b>حساب من</b>\n\n🆔 آیدی: <code>{uid}</code>\n📅 عضویت: {joined}\n🖥 سرورها: <b>{hosts}</b>\n\n{status}",
+        H + "👤 <b>My account</b>\n\n🆔 ID: <code>{uid}</code>\n📅 Joined: {joined}\n🖥 Servers: <b>{hosts}</b>\n\n{status}",
+    ),
+    "account_delete_confirm": (
+        "⚠️ <b>حذف حساب</b>\nهمه‌ی سرورها، دستورهای آماده و گروه‌هات برای همیشه پاک می‌شن و برگشت‌پذیر نیست. مطمئنی؟",
+        "⚠️ <b>Delete account</b>\nAll your servers, saved commands and groups will be erased permanently. This cannot be undone. Are you sure?",
+    ),
+    "account_deleted": ("✅ حساب و همه‌ی داده‌هات پاک شد.", "✅ Your account and all your data were erased."),
+    "admin_cannot_delete": ("👑 حساب ادمین قابل حذف نیست.", "👑 The admin account can't be deleted."),
+    # ------------------------------------------------------------ servers
+    "hosts_title": ("🖥 <b>سرورهای من</b> ({count})\n👇 یک سرور رو انتخاب کن", "🖥 <b>My servers</b> ({count})\n👇 Pick a server"),
+    "hosts_empty": (
+        "🖥 <b>هنوز سروری اضافه نکردی</b>\nبا «➕ سرور جدید» اولین سرورت رو ذخیره کن؛ فقط آدرس، نام کاربری و پسورد (یا کلید) لازمه.",
+        "🖥 <b>No servers yet</b>\nUse “➕ Add server” to save your first one; you only need its address, username and password (or key).",
+    ),
+    "hosts_empty_local": (
+        "🖥 <b>سروری ذخیره نکردی</b>\nبا «➕ سرور جدید» یکی اضافه کن، یا از دکمه‌ی «همین سرور» برای مدیریت ماشینی که ربات روش اجرا می‌شه استفاده کن.",
+        "🖥 <b>No saved servers</b>\nAdd one with “➕ Add server”, or use “This server” to manage the machine the bot runs on.",
+    ),
+    "group_title": ("🗂 <b>{name}</b> ({count})", "🗂 <b>{name}</b> ({count})"),
+    "host_missing": ("❓ این سرور پیدا نشد؛ شاید حذف شده.", "❓ Server not found; it may have been deleted."),
+    "host_detail": (
+        "🖥 <b>{label}</b>\n" + LINE + "\n🌐 آدرس: <code>{addr}</code>\n👤 کاربر: <code>{user}</code>\n🔐 ورود: {auth}\n🧬 اثرانگشت: <code>{fp}</code>\n🗂 گروه: {group}\n📅 افزوده شده: {date}\n{watch}",
+        "🖥 <b>{label}</b>\n" + LINE + "\n🌐 Address: <code>{addr}</code>\n👤 User: <code>{user}</code>\n🔐 Login: {auth}\n🧬 Fingerprint: <code>{fp}</code>\n🗂 Group: {group}\n📅 Added: {date}\n{watch}",
+    ),
+    "host_detail_local": (
+        "🏠 <b>همین سرور</b>\n" + LINE + "\nماشینی که ربات روش اجرا می‌شه.\n\n👤 کاربر: <code>{user}</code>\n🔐 ورود: کلید اختصاصی ربات\n🧬 اثرانگشت: <code>{fp}</code>\n📌 اثرانگشت قفل‌شده: {pinned}\n\n⚠️ این بخش فقط برای ادمینه و دسترسی کامل به سرور می‌ده.",
+        "🏠 <b>This server</b>\n" + LINE + "\nThe machine the bot runs on.\n\n👤 User: <code>{user}</code>\n🔐 Login: the bot's dedicated key\n🧬 Fingerprint: <code>{fp}</code>\n📌 Pinned fingerprint: {pinned}\n\n⚠️ This is for the admin only and gives full access to the server.",
+    ),
+    "watch_off_line": ("🔕 اعلان قطعی: خاموش", "🔕 Downtime alerts: off"),
+    "watch_pending_line": ("🔔 اعلان قطعی: روشن · در حال اولین بررسی", "🔔 Downtime alerts: on · first check pending"),
+    "watch_online_line": ("🟢 آنلاین · از {since}", "🟢 Online · since {since}"),
+    "watch_offline_line": ("🔴 در دسترس نیست · از {since}", "🔴 Unreachable · since {since}"),
+    "watch_enabled": (
+        "🔔 روشن شد. هر {minutes} دقیقه پورت SSH این سرور بررسی می‌شه و اگه از دسترس خارج بشه (و دوباره وصل بشه) خبرت می‌کنم.",
+        "🔔 Turned on. This server's SSH port is checked every {minutes} min; you'll be told when it goes down (and when it's back).",
+    ),
+    "watch_disabled": ("🔕 اعلان خاموش شد.", "🔕 Alerts turned off."),
+    "watch_limit": ("🔔 حداکثر {max} سرور رو می‌تونی زیر نظر داشته باشی. اول یکی رو خاموش کن.", "🔔 You can watch at most {max} servers. Turn one off first."),
+    "watch_down": (
+        "🔴 <b>{label}</b> در دسترس نیست!\n🌐 <code>{addr}</code>\nچند بررسی پشت‌سرهم ناموفق بود.",
+        "🔴 <b>{label}</b> is unreachable!\n🌐 <code>{addr}</code>\nSeveral checks in a row failed.",
+    ),
+    "watch_up": ("🟢 <b>{label}</b> دوباره آنلاین شد.\n⏱ مدت قطعی: {downtime}", "🟢 <b>{label}</b> is back online.\n⏱ Downtime: {downtime}"),
+    "host_saved": ("✅ <b>سرور ذخیره شد.</b>", "✅ <b>Server saved.</b>"),
+    "host_delete_confirm": ("🗑 سرور <b>{label}</b> حذف بشه؟", "🗑 Delete the server <b>{label}</b>?"),
+    "host_deleted": ("✅ سرور حذف شد.", "✅ Server deleted."),
+    "group_pick": ("🗂 این سرور توی کدوم گروه باشه؟", "🗂 Which group should this server be in?"),
+    "group_none_yet": ("🗂 هنوز گروهی نداری. از منوی «گروه‌ها» یکی بساز.", "🗂 You have no groups yet. Create one from the “Groups” menu."),
+    "testing": ("🧪 در حال تست...", "🧪 Testing..."),
+    "testing_msg": ("🧪 در حال تست اتصال به <b>{label}</b> ...", "🧪 Testing the connection to <b>{label}</b> ..."),
+    "test_ok": ("✅ <b>{label}</b>\nاتصال و ورود موفق بود · <code>{ms} ms</code>", "✅ <b>{label}</b>\nConnection and login succeeded · <code>{ms} ms</code>"),
+    "test_fail": ("❌ <b>{label}</b>\n\n{reason}", "❌ <b>{label}</b>\n\n{reason}"),
+    "test_ok_short": ("✅ تست موفق · {ms} ms", "✅ Test passed · {ms} ms"),
+    "test_fail_short": ("❌ تست ناموفق:\n{reason}", "❌ Test failed:\n{reason}"),
+    "limit_reached": (
+        "🔒 به سقف تعداد سرورهای اشتراکت رسیدی (<b>{max}</b>).\nبرای افزایش با ادمین ربات در ارتباط باش.",
+        "🔒 You reached your server limit (<b>{max}</b>).\nContact the bot's admin to raise it.",
+    ),
+    "limit_short": ("🔒 به سقف تعداد سرورها رسیدی.", "🔒 You reached your server limit."),
+    "edit_pick": ("✏️ کدوم بخشِ <b>{label}</b> رو ویرایش کنیم؟", "✏️ What do you want to change on <b>{label}</b>?"),
+    "ef_label": ("🏷 نام جدید سرور رو بفرست:", "🏷 Send the new server name:"),
+    "ef_ip": ("🌐 آدرس جدید (IP یا دامنه) رو بفرست:", "🌐 Send the new address (IP or domain):"),
+    "ef_port": ("🔌 پورت جدید رو بفرست:", "🔌 Send the new port:"),
+    "ef_username": ("👤 نام کاربری جدید رو بفرست:", "👤 Send the new username:"),
+    "ef_secret": ("🔑 پسورد جدید رو بفرست (پیامت بلافاصله پاک می‌شه):", "🔑 Send the new password (your message is deleted right away):"),
+    "err_label": ("❗ نام باید بین ۱ تا ۳۲ کاراکتر باشه.", "❗ The name must be 1–32 characters."),
+    "err_addr": ("❗ آدرس معتبر نیست. یک IP یا دامنه (مثل example.com) بفرست.", "❗ That doesn't look like an address. Send an IP or a domain (like example.com)."),
+    "err_blocked": ("⛔ این آدرس مجاز نیست (داخلی، خصوصی یا لوکال).", "⛔ This address isn't allowed (internal, private or local)."),
+    "err_dns": ("❗ این دامنه پیدا نشد. املاش رو چک کن.", "❗ This domain could not be resolved. Check the spelling."),
+    "err_port": ("❗ پورت باید عددی بین ۱ تا ۶۵۵۳۵ باشه.", "❗ The port must be a number from 1 to 65535."),
+    "err_user": ("❗ نام کاربری معتبر نیست. فقط حروف، عدد و . _ - @ مجازه.", "❗ Invalid username. Only letters, digits and . _ - @ are allowed."),
+    "err_secret": ("❗ طول رمز معتبر نیست.", "❗ The length is not valid."),
+    "err_key": ("❗ کلید خصوصی معتبر نیست. متن کامل کلید (با خطوط BEGIN و END) یا خودِ فایلش رو بفرست.", "❗ Invalid private key. Send the full key text (including the BEGIN/END lines) or the key file."),
+    "err_generic": ("❗ مقدار نامعتبره.", "❗ Invalid value."),
+    "err_use_buttons": ("👆 این مرحله رو با دکمه‌های زیر ادامه بده.", "👆 Please continue this step with the buttons below."),
+    # ------------------------------------------------------------ wizard
+    "wz_head": ("➕ <b>سرور جدید</b> · مرحله‌ی {n} از {total}", "➕ <b>New server</b> · step {n} of {total}"),
+    "wz_label": ("🏷 یه <b>اسم</b> برای سرور انتخاب کن\n<i>مثلاً: Web-Server</i>", "🏷 Pick a <b>name</b> for the server\n<i>e.g. Web-Server</i>"),
+    "wz_addr": ("🌐 <b>آدرس سرور</b> رو بفرست (IP یا دامنه)", "🌐 Send the <b>server address</b> (IP or domain)"),
+    "wz_port": ("🔌 <b>پورت SSH</b> رو بفرست، یا اگه پیش‌فرضه دکمه‌ی ۲۲ رو بزن", "🔌 Send the <b>SSH port</b>, or tap 22 if it's the default"),
+    "wz_user": ("👤 <b>نام کاربری</b> رو بفرست\n<i>مثلاً: root</i>", "👤 Send the <b>username</b>\n<i>e.g. root</i>"),
+    "wz_auth": ("🔐 <b>روش ورود</b> رو انتخاب کن", "🔐 Choose the <b>login method</b>"),
+    "wz_secret_pw": ("🔑 <b>پسورد</b> رو بفرست\n🧹 پیامت بلافاصله پاک می‌شه و رمز به‌صورت رمزنگاری‌شده ذخیره می‌شه.", "🔑 Send the <b>password</b>\n🧹 Your message is deleted right away and the password is stored encrypted."),
+    "wz_secret_key": ("🗝 <b>کلید خصوصی</b> رو به‌صورت متن یا فایل بفرست\n🧹 پیام پاک می‌شه و کلید رمزنگاری‌شده ذخیره می‌شه.", "🗝 Send the <b>private key</b> as text or as a file\n🧹 The message is deleted and the key is stored encrypted."),
+    "wz_pass": ("🔏 این کلید رمز داره. <b>Passphrase</b> رو بفرست\n🧹 پیامت پاک می‌شه.", "🔏 This key is protected. Send its <b>passphrase</b>\n🧹 Your message will be deleted."),
+    "wz_confirm": (
+        "✅ <b>بررسی نهایی</b>\n\n🏷 نام: <b>{label}</b>\n🌐 آدرس: <code>{addr}</code>\n👤 کاربر: <code>{user}</code>\n🔐 ورود: {auth}\n\nقبل از ذخیره می‌تونی با «تست اتصال» مطمئن بشی همه‌چیز درسته.",
+        "✅ <b>Final check</b>\n\n🏷 Name: <b>{label}</b>\n🌐 Address: <code>{addr}</code>\n👤 User: <code>{user}</code>\n🔐 Login: {auth}\n\nYou can use “Test connection” to make sure everything works before saving.",
+    ),
+    # ------------------------------------------------------------ connect and terminal
+    "connecting": ("⏳ در حال اتصال به <b>{label}</b> ...", "⏳ Connecting to <b>{label}</b> ..."),
+    "conn_err_auth": (
+        "🔑 <b>ورود ناموفق بود</b>\nنام کاربری، پسورد یا کلید رو چک کن (از «ویرایش» می‌تونی درستش کنی).\n<code>{detail}</code>",
+        "🔑 <b>Login failed</b>\nCheck the username, password or key (you can fix it under “Edit”).\n<code>{detail}</code>",
+    ),
+    "conn_err_refused": (
+        "🚪 <b>سرور اتصال رو رد کرد</b>\nمعمولاً یعنی SSH روی این پورت فعال نیست یا فایروال جلوش رو گرفته. آدرس و پورت رو چک کن.\n<code>{detail}</code>",
+        "🚪 <b>The server refused the connection</b>\nUsually SSH isn't listening on that port, or a firewall blocks it. Check the address and port.\n<code>{detail}</code>",
+    ),
+    "conn_err_timeout": (
+        "⌛ <b>سرور جواب نداد</b>\nیا خاموشه، یا آدرس/پورت اشتباهه، یا فایروال بسته‌ش کرده.\n<code>{detail}</code>",
+        "⌛ <b>The server didn't answer</b>\nIt may be off, the address/port may be wrong, or a firewall is dropping the traffic.\n<code>{detail}</code>",
+    ),
+    "conn_err_tcp_timeout": (
+        "⌛ <b>به پورت SSH سرور نرسیدم</b>\nسرورِ ربات نتونست اتصال TCP بسازه. معمولاً فایروال یا Allowlist سرور مقصد فقط IPهای مشخصی رو قبول می‌کنه؛ IP سرورِ ربات رو اونجا باز کن (و درستیِ پورت رو چک کن).\n<code>{detail}</code>",
+        "⌛ <b>Could not reach the SSH port</b>\nThe bot's server couldn't open a TCP connection. A firewall or allowlist on the target usually accepts only certain IPs; allow the bot server's IP there (and double-check the port).\n<code>{detail}</code>",
+    ),
+    "conn_err_ssh_silent": (
+        "🕳 <b>پورت بازه ولی SSH جواب نمی‌ده</b>\nمعمولاً fail2ban/sshguard این IP رو محدود کرده، یا سرویس SSH مقصد گیر کرده.\n<code>{detail}</code>",
+        "🕳 <b>The port is open but SSH stays silent</b>\nUsually fail2ban/sshguard is throttling this IP, or the target's SSH service is stuck.\n<code>{detail}</code>",
+    ),
+    "conn_err_ssh_slow": (
+        "🐢 <b>سرور خیلی دیر جواب داد</b>\nSSH بالا اومد ولی ورود توی زمان مجاز تموم نشد. دلیل رایج: <code>UseDNS</code> یا <code>GSSAPIAuthentication</code> روی سرور مقصد، یا مشکل MTU شبکه‌ی ربات.\n<code>{detail}</code>",
+        "🐢 <b>The server answered too slowly</b>\nSSH is up but the login didn't finish in time. Common causes: <code>UseDNS</code> or <code>GSSAPIAuthentication</code> on the target, or an MTU problem on the bot's network.\n<code>{detail}</code>",
+    ),
+    "conn_err_not_ssh": (
+        "❓ <b>این پورت SSH نیست</b>\nیه سرویس دیگه روی این پورت جواب می‌ده. پورت SSH درست رو وارد کن.\n<code>{detail}</code>",
+        "❓ <b>That port is not SSH</b>\nAnother service answers there. Enter the correct SSH port.\n<code>{detail}</code>",
+    ),
+    "conn_err_dns": ("🌐 <b>آدرس پیدا نشد</b>\nدامنه رو چک کن.\n<code>{detail}</code>", "🌐 <b>Address not found</b>\nCheck the domain name.\n<code>{detail}</code>"),
+    "conn_err_network": ("📡 <b>ارتباط قطع شد</b>\nیه مشکل شبکه‌ای وسط راه بود؛ دوباره امتحان کن.\n<code>{detail}</code>", "📡 <b>The connection dropped</b>\nA network problem got in the way; please try again.\n<code>{detail}</code>"),
+    "conn_err_key": ("🗝 <b>کلید خصوصی قابل استفاده نیست</b>\nاحتمالاً خراب شده یا passphrase اشتباهه.\n<code>{detail}</code>", "🗝 <b>The private key can't be used</b>\nIt may be damaged or the passphrase is wrong.\n<code>{detail}</code>"),
+    "conn_err_hostkey": (
+        "🚨 <b>کلید سرور با اثرانگشت قفل‌شده نمی‌خونه!</b>\nبه‌خاطر امنیت، اتصال انجام نشد. اگه SSH سرور رو دوباره نصب کردی، دوباره دسترسی «همین سرور» رو فعال کن.\n<code>{detail}</code>",
+        "🚨 <b>The server key doesn't match the pinned fingerprint!</b>\nFor safety the connection was not made. If you reinstalled SSH on the server, enable “This server” access again.\n<code>{detail}</code>",
+    ),
+    "conn_err_hostaccess": (
+        "🏠 <b>دسترسی به همین سرور آماده نیست</b>\nروی سرور این دستور رو اجرا کن و دوباره امتحان کن:\n<code>AX-Manager host-access enable</code>\n<code>{detail}</code>",
+        "🏠 <b>“This server” access isn't ready</b>\nRun this on the server, then try again:\n<code>AX-Manager host-access enable</code>\n<code>{detail}</code>",
+    ),
+    "conn_err_blocked": (
+        "⛔ اتصال به آدرس‌های داخلی، خصوصی و لوکال مجاز نیست (محافظت امنیتی).",
+        "⛔ Connecting to internal, private or local addresses isn't allowed (security protection).",
+    ),
+    "conn_err_other": ("❌ <b>اتصال ناموفق بود</b>\n<code>{detail}</code>", "❌ <b>Connection failed</b>\n<code>{detail}</code>"),
+    "err_blocked_full": (
+        "⛔ اتصال به آدرس‌های داخلی، خصوصی و لوکال مجاز نیست (محافظت امنیتی). اگه سرورت توی شبکه‌ی خصوصی‌ه، ادمین ربات می‌تونه محدوده‌ش رو در تنظیمات (ALLOWED_NETS) اجازه بده.",
+        "⛔ Connecting to internal, private or local addresses isn't allowed (security protection). If your server is on a private network, the bot's admin can allow that range in the settings (ALLOWED_NETS).",
+    ),
+    "host_key_prompt": (
+        "🔐 <b>اولین اتصال به این سرور</b>\n\nاثرانگشت کلید سرور:\n<code>{fp}</code>\n\nاگه مطمئنی این همون سرور خودته، تأیید کن؛ از این به بعد همین اثرانگشت چک می‌شه.",
+        "🔐 <b>First connection to this server</b>\n\nServer key fingerprint:\n<code>{fp}</code>\n\nConfirm only if you're sure this is your server; from now on this fingerprint is verified.",
+    ),
+    "host_key_changed": (
+        "🚨 <b>هشدار امنیتی: کلید سرور عوض شده!</b>\n\nقبلی:\n<code>{old}</code>\nجدید:\n<code>{fp}</code>\n\nاین می‌تونه نشونه‌ی حمله (MITM) باشه. فقط اگه خودت سرور رو دوباره نصب کردی تأیید کن.",
+        "🚨 <b>Security warning: the server key changed!</b>\n\nPrevious:\n<code>{old}</code>\nNew:\n<code>{fp}</code>\n\nThis may be a man-in-the-middle attack. Confirm only if you reinstalled the server yourself.",
+    ),
+    "trust_expired": ("⌛ تأیید اثرانگشت منقضی شد و اتصال بسته شد. دوباره از سرور شروع کن.", "⌛ The fingerprint confirmation timed out and the connection was closed. Start again from the server."),
+    "session_exists": ("⚠️ یه نشست ترمینال فعال داری. برای اتصال جدید باید اون رو ببندی.", "⚠️ You already have an active terminal session. Close it to open a new one."),
+    "busy": ("🚦 الان ظرفیت نشست‌های زنده پره. چند دقیقه‌ی دیگه دوباره امتحان کن.", "🚦 Live sessions are full right now. Please try again in a few minutes."),
+    "no_session": ("⚠️ نشست فعالی وجود نداره.", "⚠️ There is no active session."),
+    "terminal_hint": ("⌨️ <i>متنت رو بفرست تا داخل ترمینال تایپ بشه</i>", "⌨️ <i>Send text to type it into the terminal</i>"),
+    "session_closed": ("🔌 نشست بسته شد.", "🔌 Session closed."),
+    "session_idle": ("⌛ نشست به‌خاطر بیکاری بسته شد.", "⌛ The session was closed because it was idle."),
+    "session_max_life": ("⏱ نشست به حداکثر زمان مجاز رسید و بسته شد.", "⏱ The session reached its maximum duration and was closed."),
+    "session_killed": ("🔌 نشست توسط ادمین بسته شد.", "🔌 The session was closed by the admin."),
+    "idle_warning": ("⏳ حدود {minutes} دقیقه‌ی دیگه نشست ترمینال به‌خاطر بیکاری بسته می‌شه. برای ادامه یه چیزی تایپ کن.", "⏳ The terminal session closes in about {minutes} min because it's idle. Type something to keep it open."),
+    "log_caption": ("📥 خروجی نشست <b>{label}</b>", "📥 Output of the <b>{label}</b> session"),
+    "no_snippets": ("⚡ هنوز دستور آماده‌ای نداری. از منوی «دستورهای آماده» بساز.", "⚡ You have no saved commands yet. Create some from the “Saved commands” menu."),
+    "snip_pick": ("⚡ یکی از دستورها رو انتخاب کن تا توی ترمینال اجرا بشه:", "⚡ Pick a command to run in the terminal:"),
+    "snip_sent": ("✅ «{name}» اجرا شد", "✅ “{name}” sent"),
+    # ------------------------------------------------------------ files
+    "sftp_browsing": ("📁 <b>فایل‌ها</b>\n📍 <code>{path}</code>\n🔢 {count} مورد", "📁 <b>Files</b>\n📍 <code>{path}</code>\n🔢 {count} items"),
+    "sftp_empty": ("<i>این پوشه خالیه.</i>", "<i>This folder is empty.</i>"),
+    "sftp_mode_delete": ("🗑 <b>حالت حذف روشنه</b>؛ روی هر مورد بزنی (با تأیید) پاک می‌شه.", "🗑 <b>Delete mode is on</b>; tapping an item deletes it (after confirmation)."),
+    "sftp_error": ("❌ پوشه خونده نشد:\n<code>{err}</code>", "❌ Couldn't read the folder:\n<code>{err}</code>"),
+    "sftp_expired": ("⌛ نشست فایل‌ها به‌خاطر بیکاری بسته شد.", "⌛ The file session was closed because it was idle."),
+    "sftp_upload_alert": ("📤 برای آپلود، یه فایل (تا ۲۰ مگابایت) به‌صورت Document توی همین چت بفرست؛ توی پوشه‌ی فعلی ذخیره می‌شه.", "📤 To upload, send a file (up to 20 MB) as a document in this chat; it's saved into the current folder."),
+    "sftp_mkdir_prompt": ("📁 اسم <b>پوشه‌ی جدید</b> رو بفرست\n📍 <code>{path}</code>", "📁 Send the name of the <b>new folder</b>\n📍 <code>{path}</code>"),
+    "err_folder_name": ("❗ اسم پوشه معتبر نیست.", "❗ Invalid folder name."),
+    "sftp_folder_made": ("✅ پوشه‌ی <b>{name}</b> ساخته شد.", "✅ Folder <b>{name}</b> created."),
+    "sftp_delete_confirm": ("🗑 {kind} <b>{name}</b> حذف بشه؟\n<i>پوشه‌ها با همه‌ی محتواشون پاک می‌شن.</i>", "🗑 Delete {kind} <b>{name}</b>?\n<i>Folders are deleted together with everything inside.</i>"),
+    "sftp_deleted": ("✅ <b>{name}</b> حذف شد.", "✅ <b>{name}</b> deleted."),
+    "sftp_op_failed": ("❌ انجام نشد:\n<code>{err}</code>", "❌ Failed:\n<code>{err}</code>"),
+    "sftp_empty_file": ("ℹ️ این فایل خالیه و تلگرام فایل خالی نمی‌فرسته.", "ℹ️ This file is empty and Telegram can't send empty files."),
+    "sftp_too_big_dl": ("⚠️ حجم فایل ({size}) از سقف ۵۰ مگابایتیِ ارسال تلگرام بیشتره.", "⚠️ The file ({size}) is over Telegram's 50 MB send limit."),
+    "sftp_too_big_ul": ("⚠️ حجم فایل ({size}) از سقف ۲۰ مگابایتیِ دریافت ربات بیشتره.", "⚠️ The file ({size}) is over the bot's 20 MB receive limit."),
+    "sftp_downloading": ("⏬ در حال دانلود <b>{name}</b> ...", "⏬ Downloading <b>{name}</b> ..."),
+    "sftp_uploading": ("⏫ در حال آپلود <b>{name}</b> ...", "⏫ Uploading <b>{name}</b> ..."),
+    "sftp_upload_done": ("✅ <b>{name}</b> آپلود شد.", "✅ <b>{name}</b> uploaded."),
+    "sftp_upload_replaced": ("✅ <b>{name}</b> آپلود شد (فایل قبلی با همین اسم جایگزین شد).", "✅ <b>{name}</b> uploaded (it replaced an existing file with the same name)."),
+    # ------------------------------------------------------------ monitor
+    "mon_view": ("📊 <b>مانیتور</b> · {label}\n" + LINE + "\n{body}", "📊 <b>Monitor</b> · {label}\n" + LINE + "\n{body}"),
+    "mon_cores": ("هسته", "cores"),
+    "mon_kernel": ("کرنل", "kernel"),
+    "mon_containers": ("کانتینرهای در حال اجرا", "running containers"),
+    "mon_failed": ("سرویس‌های خراب", "failed services"),
+    "mon_top": ("پرمصرف‌ترین‌ها (CPU / رم)", "Top processes (CPU / RAM)"),
+    "mon_no_data": ("ℹ️ اطلاعاتی از سرور نگرفتم. احتمالاً شِل این کاربر محدوده.", "ℹ️ Couldn't get any data from the server. This user's shell may be restricted."),
+    "mon_timeout": ("⌛ سرور دیر جواب داد.", "⌛ The server took too long to answer."),
+    # ------------------------------------------------------------ toolbox
+    "tb_menu": ("🧰 <b>ابزارها</b> · {label}\n" + LINE + "\nیه ابزار رو بزن تا نتیجه‌ش همین‌جا نمایش داده بشه. همه‌شون فقط می‌خونن و چیزی رو تغییر نمی‌دن (به‌جز ری‌استارت).", "🧰 <b>Toolbox</b> · {label}\n" + LINE + "\nTap a tool and the result shows up right here. They are all read-only (except reboot)."),
+    "tb_top": ("🔥 پرمصرف‌ترین (CPU)", "🔥 Top by CPU"),
+    "tb_mem": ("🧠 پرمصرف‌ترین (رم)", "🧠 Top by RAM"),
+    "tb_disk": ("💽 فضای دیسک", "💽 Disk space"),
+    "tb_du": ("📦 حجم پوشه‌های /var", "📦 Size of /var folders"),
+    "tb_ports": ("🔌 پورت‌های باز", "🔌 Open ports"),
+    "tb_net": ("🌐 آدرس‌های شبکه", "🌐 Network addresses"),
+    "tb_docker": ("🐳 کانتینرهای داکر", "🐳 Docker containers"),
+    "tb_failed": ("⚠️ سرویس‌های خراب", "⚠️ Failed services"),
+    "tb_journal": ("📜 آخرین خطاها", "📜 Recent errors"),
+    "tb_logins": ("👥 آخرین ورودها", "👥 Recent logins"),
+    "tb_updates": ("⬆️ آپدیت‌های در انتظار", "⬆️ Pending updates"),
+    "tb_reboot": ("🔄 ری‌استارت سرور", "🔄 Reboot server"),
+    "tb_reboot_confirm": ("⚠️ <b>سرور ری‌استارت بشه؟</b>\nهمه‌ی سرویس‌ها چند لحظه قطع می‌شن و نشست‌های باز بسته می‌شن.", "⚠️ <b>Reboot the server?</b>\nEvery service goes down for a moment and open sessions are closed."),
+    "tb_rebooting": ("🔄 دستور ری‌استارت برای <b>{label}</b> ارسال شد. معمولاً ظرف یک‌دو دقیقه دوباره آنلاین می‌شه.", "🔄 The reboot command was sent to <b>{label}</b>. It's usually back within a minute or two."),
+    "tb_result": ("🧰 <b>{title}</b> · {label}\n" + LINE + "\n{body}", "🧰 <b>{title}</b> · {label}\n" + LINE + "\n{body}"),
+    "tb_no_output": ("(خروجی نداشت — احتمالاً چیزی برای نمایش نیست)", "(no output — probably nothing to show)"),
+    "tb_timeout": ("⌛ دستور بیش از حد طول کشید و متوقف شد.", "⌛ The command took too long and was stopped."),
+    # ------------------------------------------------------------ saved commands and groups
+    "snip_title": ("⚡ <b>دستورهای آماده</b> ({count})\nدستورهای پرکاربردت. توی ترمینال با دکمه‌ی ⚡ اجراشون کن.", "⚡ <b>Saved commands</b> ({count})\nYour go-to commands. Run them from the terminal with the ⚡ button."),
+    "snip_empty": ("⚡ <b>هنوز دستور آماده‌ای نداری</b>\nدستورهای پرکاربردت رو ذخیره کن و با یک دکمه اجرا کن.", "⚡ <b>No saved commands yet</b>\nSave the commands you use often and run them with one tap."),
+    "snip_view": ("⚡ <b>{name}</b>\n<pre>{cmd}</pre>", "⚡ <b>{name}</b>\n<pre>{cmd}</pre>"),
+    "snip_delete_confirm": ("🗑 این دستور حذف بشه؟", "🗑 Delete this command?"),
+    "snip_limit": ("⚠️ به سقف تعداد دستورهای آماده رسیدی.", "⚠️ You reached the limit of saved commands."),
+    "snip_ask_name": ("⚡ یه <b>اسم</b> برای دستور بفرست", "⚡ Send a <b>name</b> for the command"),
+    "snip_ask_cmd": ("⚡ حالا خودِ <b>دستور</b> «{name}» رو بفرست", "⚡ Now send the <b>command</b> for “{name}”"),
+    "snip_saved": ("✅ دستور ذخیره شد.", "✅ Command saved."),
+    "err_snip_name": ("❗ اسم باید ۱ تا ۳۲ کاراکتر باشه.", "❗ The name must be 1–32 characters."),
+    "err_snip_cmd": ("❗ دستور باید ۱ تا ۱۰۰۰ کاراکتر باشه.", "❗ The command must be 1–1000 characters."),
+    "groups_title": ("🗂 <b>گروه‌ها</b>\nسرورهات رو دسته‌بندی کن.", "🗂 <b>Groups</b>\nOrganize your servers."),
+    "groups_empty": ("🗂 <b>هنوز گروهی نداری</b>\nبرای دسته‌بندی سرورها یه گروه بساز.", "🗂 <b>No groups yet</b>\nCreate a group to organize your servers."),
+    "group_view": ("🗂 <b>{name}</b>\n🖥 {count} سرور", "🗂 <b>{name}</b>\n🖥 {count} servers"),
+    "group_delete_confirm": ("🗑 گروه حذف بشه؟ (سرورهای داخلش پاک نمی‌شن)", "🗑 Delete this group? (The servers inside are kept)"),
+    "group_limit": ("⚠️ به سقف تعداد گروه‌ها رسیدی.", "⚠️ You reached the limit of groups."),
+    "group_ask_name": ("🗂 <b>اسم گروه</b> رو بفرست", "🗂 Send the <b>group name</b>"),
+    "group_created": ("✅ گروه ساخته شد.", "✅ Group created."),
+    "err_group_name": ("❗ اسم گروه باید ۱ تا ۲۴ کاراکتر باشه.", "❗ The group name must be 1–24 characters."),
+}

@@ -36,14 +36,14 @@ You need a Linux server (Debian/Ubuntu recommended), root access, a bot token fr
 and your numeric Telegram ID (a bot like @userinfobot shows it; once installed, `/id` does too).
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/AtronixX-Core/AtronixX-ServerManager/main/install.sh | sudo bash
 ```
 
 The installer checks your system, installs Docker if needed, validates your token with Telegram, creates a private
 `.env`, pulls the image (or builds from source when no image is available), starts the bot and waits until it is
 online. When it finishes, open your bot and send `/start`.
 
-From a clone instead: `git clone https://github.com/AtronixX-Core-98/AtronixX-ServerManager && cd AtronixX-ServerManager && sudo ./install.sh`
+From a clone instead: `git clone https://github.com/AtronixX-Core/AtronixX-ServerManager && cd AtronixX-ServerManager && sudo ./install.sh`
 
 Unattended: `SM_YES=1 SM_BOT_TOKEN=… SM_ADMIN_ID=… sudo -E ./install.sh` (more: `SM_BRAND`, `SM_SUPPORT`, `SM_BACKUP_PASS`, `SM_HOST_ACCESS=1`).
 
@@ -128,7 +128,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Forking? Point everything at your reposi
 
 ## Credits and support
 
-Created and maintained by **[AtronixX-Core](https://github.com/AtronixX-Core-98)**.
+Created and maintained by **[AtronixX-Core](https://github.com/AtronixX-Core)**.
 News and releases: [@AtronixX_Core](https://t.me/AtronixX_Core) · Help: [@AtronixX_Support](https://t.me/AtronixX_Support)
 
 > `SUPPORT_USERNAME` in `.env` is the support contact for **your** bot's users. The credits above are for the project itself.

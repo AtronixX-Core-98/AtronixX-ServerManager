@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # One-line installer for ServerManager.
 #
-#   curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh | sudo bash
+#   curl -fsSL https://raw.githubusercontent.com/AtronixX-Core/AtronixX-ServerManager/main/install.sh | sudo bash
 #
 # It downloads the `AX-Manager` control script, installs it to /usr/local/bin and starts the
 # guided installation. Run it from a cloned checkout instead (sudo ./install.sh) to install from
 # local files.
 set -euo pipefail
 
-SM_REPO="${SM_REPO:-AtronixX-Core-98/AtronixX-ServerManager}"
+SM_REPO="${SM_REPO:-AtronixX-Core/AtronixX-ServerManager}"
 SM_BRANCH="${SM_BRANCH:-main}"
 export SM_REPO SM_BRANCH
 

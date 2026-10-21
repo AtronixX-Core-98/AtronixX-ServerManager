@@ -36,7 +36,7 @@
 </div>
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/AtronixX-Core/AtronixX-ServerManager/main/install.sh | sudo bash
 ```
 
 <div dir="rtl">
@@ -120,7 +120,7 @@ pip install -r requirements-dev.txt && python -m pytest -q
 
 ## سازنده و پشتیبانی
 
-ساخته و نگهداری‌شده توسط **[AtronixX-Core](https://github.com/AtronixX-Core-98)**.
+ساخته و نگهداری‌شده توسط **[AtronixX-Core](https://github.com/AtronixX-Core)**.
 اخبار و نسخه‌های جدید: [@AtronixX_Core](https://t.me/AtronixX_Core) · پشتیبانی: [@AtronixX_Support](https://t.me/AtronixX_Support)
 
 > `SUPPORT_USERNAME` توی `.env` راه ارتباطی کاربرهای **ربات خودت** هست؛ اطلاعات بالا مربوط به خودِ پروژه‌ست.
