@@ -1,0 +1,12 @@
+.git
+.github
+.env
+data/
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+pytest.ini
+scripts/servermanager.sh
+install.sh
+*.md
