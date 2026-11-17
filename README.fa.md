@@ -36,7 +36,8 @@
 </div>
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh -o install.sh
+bash install.sh
 ```
 
 <div dir="rtl">
