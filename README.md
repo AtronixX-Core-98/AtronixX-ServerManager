@@ -36,8 +36,8 @@ You need a Linux server (Debian/Ubuntu recommended), root access, a bot token fr
 and your numeric Telegram ID (a bot like @userinfobot shows it; once installed, `/id` does too).
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh | sudo bash
-```
+curl -fsSL https://raw.githubusercontent.com/AtronixX-Core-98/AtronixX-ServerManager/main/install.sh -o install.sh
+bash install.sh
 
 The installer checks your system, installs Docker if needed, validates your token with Telegram, creates a private
 `.env`, pulls the image (or builds from source when no image is available), starts the bot and waits until it is
